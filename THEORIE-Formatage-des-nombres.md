@@ -147,5 +147,7 @@ Et bien cette compatibilité est cassée entre le JRE 8 et JRE 17 pour certains 
    Séparateur de milliers : ?\
    Le nombre formaté: 1?234?567,896
 
+   Vous aurez l'occasion de résoudre ce problème lors du prochain exercice :blush:
+
 
 
