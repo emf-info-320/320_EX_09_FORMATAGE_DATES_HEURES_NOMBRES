@@ -115,7 +115,34 @@ Le package `java.time` offre de nombreux avantages par rapport aux package `java
 
 ### DateTimeFormatter, LocalDate et LocalDateTime
 
-Pour vous convaincre de sa puissance : et si on voulait **calculer le nombre de jours et le nombre d'heures séparant deux dates précises** (en tenant compte des années bissextiles, des mois à 30 jours, ...) :
+Une fonctionnalité importante est la prise en compte du format d'affichage de la Locale de l'utilisateur. En effet cela vous permettra de créer des logiciels avec le format d'affichage correspondant à la Locale par défaut de l'utilisateur. 
+Voici un exemple simple illustrant cela:
+
+```java
+
+LocalDate date = LocalDate.now()
+                          .plusDays(5)
+                          .minusMonths(1)
+                          .withYear(2025);
+
+// Création d'un formateur de date avec le style court et la locale par défaut
+DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.getDefault());                                   
+
+// Formatage de la date
+String formattedDate = date.format(formatter);
+
+// Affichage de la date formatée: affichera 13.05.25, selon les paramètres d'environnement du format régional (LOCALE)
+System.out.println(formattedDate);
+
+```
+
+Le format de style court fait référence à ce paramètrage Windows :
+
+<img src="doc/img/TH_date_2.png" alt="réglage Région" />
+
+#### Voici encore des exemples de la puissance de ce package :
+
+Et si on voulait **calculer le nombre de jours et le nombre d'heures séparant deux dates précises** (en tenant compte des années bissextiles, des mois à 30 jours, ...) :
 ```java
 // Instant N°1 : 1er janvier 2024 à 08:00
 LocalDateTime dateTime1 = LocalDateTime.of(2024, 01, 1, 8, 0);
