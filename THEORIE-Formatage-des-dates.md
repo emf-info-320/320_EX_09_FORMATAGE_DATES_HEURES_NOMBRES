@@ -1,7 +1,7 @@
 # Théorie formatage des dates
 
 Le principe est le même que pour le formatage des nombres, avec un processus de conversion qui cette fois repose sur la classe
-**SimpleDateFormat** du package **java.text**.
+**DateTimeFormatter** du package **java.time**.
 
 
 <img src="doc/img/TH_date_1.png" alt="processus date" />
@@ -12,19 +12,17 @@ L'équivalent en code:
 ## Formatage simple avec la Locale par défaut :
 ```java
 
-//Début du processus et définition d'une date.
-Date date = new Date(); // Renvoie la date et heure actuelle
+// Définition d'une date locale
+LocalDate date = LocalDate.now();
 
-//Préparation de notre outil de transformation en utilisant un des constructeur de SimpleDateFormat,
-//avec en paramètre le format désiré.
-//L'objet retourné de type SimpleDateFormat va nous permettre d'effectuer la transformation de notre date
-SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+// Préparation de notre outil de transformation avec DateTimeFormatter
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-//Transformation et récupération du résultat
-String laDateMiseEnForme = sdf.format(date);
+// Transformation et récupération du résultat
+String laDateMiseEnForme = date.format(formatter);
 
-//Affichage du résultat par exemple: "2024-05-30
-System.out.println(laDateMiseEnForme); 
+// Affichage du résultat, par exemple : "2024-05-30"
+System.out.println(laDateMiseEnForme);
 
 ```
 
@@ -61,57 +59,30 @@ System.out.println(laDateMiseEnForme);
 - `z` : Fuseau horaire général.
 
 
-## Formatage avancé, avec utilisation de DateFormatSymbols et des Locales
+## Formatage avancé, avec utilisation de Locales
 
-Comme vous l'avez remarqué dans le tableau ci-dessus, les symboles de la Locale par défaut sont utilisés pour formater les dates et heures. En réalité, cela impacte principalement le nom du jour, du mois, et le numéro de jour de la semaine. 
+Comme vous l'avez remarqué dans le tableau ci-dessus, la Locale par défaut est utilisée pour formater les dates et heures. En réalité, cela impacte principalement le nom du jour, du mois, et le numéro de jour de la semaine.
 
-Dans certaines situations, il peut être nécessaire de changer la Locale par défaut et également de changer certains symboles de la Locale utilisée.
+Dans certaines situations, il peut être nécessaire de changer la Locale par défaut afin d'obtenir un affichage adapté à un pays ou une langue spécifique.
 
-Pour cela, SimpleDateFormat propose un constructeur qui demande en paramètre le pattern et un jeu de symboles. Ce jeu de symboles s'obtient avec une instance de DateFormatSymbols, dont le constructeur lui-même accepte soit aucun argument (c'est la Locale par défaut qui sera utilisée), soit un argument de type Locale.
+Pour cela, `DateTimeFormatter` permet d'utiliser directement une locale lors de la création du formateur.
 
 ```java
 // Définition d'une Locale spécifique (par exemple, la Suisse romande)
 Locale locale = new Locale.Builder().setLanguage("fr").setRegion("CH").build();
-        
-// Instantiation de DateFormatSymbols en fonction de cette locale
-DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(locale);
 
-// Personnalisation de jeu de symboles obtenu avec les instructions suivantes:
-String[] newWeekdays = {
-  "", "Le dimanche", "Le lundi", "Le mardi", "Le mercredi", "Le jeudi", "Le vendredi", "Le samedi"
-};
-  
-dateFormatSymbols.setWeekdays(newWeekdays);
-   
 // Création d'une date à formater (date actuelle)
-Date date = new Date();
+LocalDate date = LocalDate.now();
 
-// Instantiation de SimpleDateFormat, avec un pattern et le jeu de symboles customizé
-SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM dd, yyyy", dateFormatSymbols);
-// Formatage de la date selon le pattern et les symbols personnalisés
-String formattedDate = sdf.format(date);
+// Création d'un formateur avec le pattern et la locale personnalisée
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy", locale);
 
-// Affichage du résultat formaté : par exemple Le samedi, juin 08, 2024
+// Formatage de la date selon le pattern et la locale
+String formattedDate = formatter.format(date);
+
+// Affichage du résultat formaté : par exemple "samedi, juin 08, 2024"
 System.out.println("Date formatée (Suisse personnalisé): " + formattedDate);
 ```
-
-## Pour aller plus loin, le package `java.time`
-
-Le package `java.time` offre de nombreux avantages par rapport aux package `java.text` et `java.util` car il utilise des objets immuables (objet dont l'état ne peux pas être modifié après sa création), qui sont thread-safe et qui offre de très nombreux outils très pratiques pour travailler et calculer avec des dates/heures (exemples donnés plus bas).
-
-| Caractéristique                          | `java.time`                              | `java.util` et `java.text`                |
-|------------------------------------------|------------------------------------------|------------------------------------------|
-| Immutabilité                             | Oui                                      | Non                                      |
-| Gestion des fuseaux horaires             | Intégrée et facile                       | Complexe et sujet à erreurs              |
-| API fluide                               | Oui                                      | Non                                      |
-| Support des types temporels spécifiques  | Oui (LocalDate, LocalTime, etc.)         | Non (utilise principalement `Date` et `Calendar`) |
-| Sécurité thread                          | Oui                                      | Non                                      |
-| Parsing et formatage                     | `DateTimeFormatter`                      | `SimpleDateFormat` et `DateFormat`       |
-| Gestion des périodes et des durées       | `Period`, `Duration`                     | Complexe, doit être implémentée manuellement |
-| Compatibilité avec les API modernes      | Oui                                      | Non                                      |
-
-> [!IMPORTANT]  
-> `java.time` est l'avenir de Java (la classe Date son passé) ! C'est la voie qu'il vous faut préférer dans vos développements.
 
 ### DateTimeFormatter, LocalDate et LocalDateTime
 

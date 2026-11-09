@@ -2,7 +2,6 @@
 
 **Table des matières** :
 
-- [Le formatage des nombres et des dates](#le-formatage-des-nombres-et-des-dates)
 - [Introduction](#introduction)
 - [Objectifs](#objectifs)
 - [Excercices et théorie](#excercices-et-théorie)
@@ -36,16 +35,13 @@ Ces outils, c'est à dire des classes java, vous nous permettrent de répondre a
 
 
 # Excercices et théorie
-## Découverte de la librairie java
-   Pour débuter, vous parcourez la documentation java afin d'effectuer l'activité suivante:
-   - [EXERCICE-1-UML](/EXERCICE-1-UML.md)
 
 ## Explication du formatage des nombres
  - [THEORIE-Formatage-des-nombres](/THEORIE-Formatage-des-nombres.md)
  - [THEORIE-Formatage-des-dates](/THEORIE-Formatage-des-dates.md)
 
 ## Exercice formatage 
- - [EXERCICE-2-Formatage](/EXERCICE-2-Formatage.md)
+ - [EXERCICE-Formatage](/EXERCICE-Formatage.md)
 
 
 # Ressources
