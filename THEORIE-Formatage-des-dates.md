@@ -69,7 +69,7 @@ Pour cela, `DateTimeFormatter` permet d'utiliser directement une locale lors de 
 
 ```java
 // Définition d'une Locale spécifique (par exemple, la Suisse romande)
-Locale locale = new Locale.Builder().setLanguage("fr").setRegion("CH").build();
+Locale locale = Locale.of("fr", "CH");
 
 // Création d'une date à formater (date actuelle)
 LocalDate date = LocalDate.now();
